@@ -1,18 +1,14 @@
-import { useState, useEffect, useRef } from "react";
-
-
-
+import { useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [activeService, setActiveService] = useState("Packers & Movers");
   const dropdownRef = useRef(null);
+  const location = useLocation();
 
-  // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(e) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setDropdownOpen(false);
+        // reserved for future dropdown
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -21,25 +17,56 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
+
       {/* Logo */}
-      <a className="logo" href="#">
-       <img src="https://hbnlogistics.com/wp-content/uploads/2025/06/logo_header.png" alt="" />
-      </a>
+      <Link className="logo" to="/">
+        <img
+          src="https://hbnlogistics.com/wp-content/uploads/2025/06/logo_header.png"
+          alt="HBN Logistics"
+        />
+      </Link>
 
       {/* Nav Links */}
       <ul className="nav-links">
-        <li><a href="/">Home</a></li>
-
-        <li><a href="/services">Services</a></li>
-
-        <li><a href="/about">About Us</a></li>
-        <li><a href="/contact">Contact Us</a></li>
+        <li>
+          <Link
+            to="/"
+            className={location.pathname === "/" ? "active" : ""}
+          >
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/services"
+            className={location.pathname.startsWith("/services") ? "active" : ""}
+          >
+            Services
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/about"
+            className={location.pathname === "/about" ? "active" : ""}
+          >
+            About Us
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/contact"
+            className={location.pathname === "/contact" ? "active" : ""}
+          >
+            Contact Us
+          </Link>
+        </li>
       </ul>
 
       {/* CTA */}
-      <a className="quote-btn" href="#">
+      <Link className="quote-btn" to="/contact">
         Get A Quote <span className="arrow">→</span>
-      </a>
+      </Link>
+
     </nav>
   );
 }
